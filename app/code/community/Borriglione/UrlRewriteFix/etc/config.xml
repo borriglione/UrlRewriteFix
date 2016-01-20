@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Borriglione_UrlRewriteFix>
+            <version>0.1.0</version>
+        </Borriglione_UrlRewriteFix>
+    </modules>
+    <global>
+        <helpers>
+            <borriglione_urlrewritefix>
+                <class>Borriglione_UrlRewriteFix_Helper</class>
+            </borriglione_urlrewritefix>
+        </helpers>
+        <models>
+            <borriglione_urlrewritefix>
+                <class>Borriglione_UrlRewriteFix_Model</class>
+            </borriglione_urlrewritefix>
+            <catalog>
+                <rewrite>
+                    <url>Borriglione_UrlRewriteFix_Model_Catalog_Url</url>
+                </rewrite>
+            </catalog>
+        </models>
+    </global>
+</config>

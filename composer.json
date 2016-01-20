@@ -1,0 +1,9 @@
+{
+   "name": "borriglione/urlrewritefix",
+   "type": "magento-module",
+   "description": "Fixes Magento Core Url Rewrite bug",
+   "homepage": "https://github.com/borriglione/UrlRewriteFix",
+   "require": {
+      "magento-hackathon/magento-composer-installer": "*"
+   }
+}
