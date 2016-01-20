@@ -42,28 +42,30 @@ class Borriglione_UrlRewriteFix_Model_Catalog_Url extends Mage_Catalog_Model_Url
         if (isset($this->_rewrites[$idPath])) {
             $this->_rewrite = $this->_rewrites[$idPath];
             $existingRequestPath = $this->_rewrites[$idPath]->getRequestPath();
+            $existingRequestPath = str_replace($suffix, '', $existingRequestPath);
 
-            if ($existingRequestPath == $requestPath . $suffix) {
-                return $existingRequestPath;
+            if ($existingRequestPath == $requestPath) {
+                return $requestPath.$suffix;
             }
-
-            $existingRequestPath = preg_replace('/' . preg_quote($suffix, '/') . '$/', '', $existingRequestPath);
             /**
              * Check if existing request past can be used
              */
-             if (!empty($requestPath)
-                   && strpos($existingRequestPath, $requestPath) === 0
-             ) {
-                $existingRequestPath = preg_replace(
-                    '/^' . preg_quote($requestPath, '/') . '/', '', $existingRequestPath
-                );
+            if ($product->getUrlKey() == '' && !empty($requestPath)
+                && strpos($existingRequestPath, $requestPath) === 0
+            ) {
+
+                $existingRequestPath = str_replace($requestPath, '', $existingRequestPath);
                 if (preg_match('#^-([0-9]+)$#i', $existingRequestPath)) {
                     return $this->_rewrites[$idPath]->getRequestPath();
                 }
             }
-
+            /**
+             * check if current generated request path is one of the old paths
+             */
             $fullPath = $requestPath.$suffix;
-            if ($this->_deleteOldTargetPath($fullPath, $idPath, $storeId)) {
+            $finalOldTargetPath = $this->getResource()->findFinalTargetPath($fullPath, $storeId);
+            if ($finalOldTargetPath && $finalOldTargetPath == $idPath) {
+                $this->getResource()->deleteRewrite($fullPath, $storeId);
                 return $fullPath;
             }
         }
