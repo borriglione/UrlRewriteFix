@@ -63,7 +63,9 @@ class Borriglione_UrlRewriteFix_Model_Catalog_Url extends Mage_Catalog_Model_Url
             }
 
             $fullPath = $requestPath.$suffix;
-            if ($this->_deleteOldTargetPath($fullPath, $idPath, $storeId)) {
+            $finalOldTargetPath = $this->getResource()->findFinalTargetPath($fullPath, $storeId);
+            if ($finalOldTargetPath && $finalOldTargetPath == $idPath) {
+                $this->getResource()->deleteRewrite($fullPath, $storeId);
                 return $fullPath;
             }
         }
